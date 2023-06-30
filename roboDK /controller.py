@@ -1,55 +1,34 @@
-{
- "cells": [
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": []
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 1,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "from robodk.robolink import *\n",
-    "from robodk.robomath import *"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "RDK = Robolink()\n",
-    "\n",
-    "robot = RDK.Item(\"conveyer\")\n",
-    "\n",
-    "\n",
-    "\n"
-   ]
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "tf",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "codemirror_mode": {
-    "name": "ipython",
-    "version": 3
-   },
-   "file_extension": ".py",
-   "mimetype": "text/x-python",
-   "name": "python",
-   "nbconvert_exporter": "python",
-   "pygments_lexer": "ipython3",
-   "version": "3.9.16"
-  },
-  "orig_nbformat": 4
- },
- "nbformat": 4,
- "nbformat_minor": 2
-}
+from robodk.robolink import *
+from time import sleep
+
+RDK = Robolink()
+conveyer = RDK.Item("Conveyer")
+Target_1 = RDK.Item("Target 1")
+Target_2 = RDK.Item("Target 2")
+
+gantry = RDK.Item("Gantry")
+Target_3 = RDK.Item("zero")
+Target_4 = RDK.Item("one")
+Target_5 = RDK.Item("two")
+Target_6 = RDK.Item("three")
+gantry.MoveJ(Target_3)
+sleep(2)
+gantry.MoveJ(Target_4)
+sleep(2)
+gantry.MoveJ(Target_3)
+sleep(2)
+gantry.MoveJ(Target_5)
+sleep(2)
+gantry.MoveJ(Target_6)
+sleep(2)
+gantry.MoveJ(Target_5)
+sleep(2)
+gantry.MoveJ(Target_3)
+sleep(2)
+conveyer.MoveJ(Target_1)
+sleep(2)
+conveyer.MoveJ(Target_2)
+sleep(2)
+conveyer.MoveJ(Target_1)
+
+g
