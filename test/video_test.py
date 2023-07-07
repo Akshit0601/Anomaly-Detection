@@ -4,8 +4,8 @@ import numpy
 import cv2
 
 model = tensorflow.keras.models.load_model('/Users/akshitshishodia/intern/tracker/files/model_2.h5')
-path = '/Users/akshitshishodia/intern/tracker/dataset'
-# cap = cv2.VideoCapture('/Users/akshitshishodia/Desktop/Screen Recording 2023-06-26 at 10.31.24 PM.mov')
+# path = '/Users/akshitshishodia/Desktop/Screen Recording 2023-07-07 at 10.20.02 PM.mov'
+cap = cv2.VideoCapture('/Users/akshitshishodia/Desktop/Screen Recording 2023-07-07 at 10.20.02 PM.mov')
 
 def convert_frame(frame):
     x = cv2.resize(frame,(512,512))
@@ -15,15 +15,15 @@ def convert_frame(frame):
     return x
 
 
-# while(cap.isOpened()):
-for file in os.listdir(path=path):
+while(cap.isOpened()):
+# for file in os.listdir(path=path):
     
-    frame = cv2.imread(os.path.join(path,file))
+    # frame = cv2.imread(os.path.join(path,file))
 
    
 
 
-    # ret,frame = cap.read()
+    ret,frame = cap.read()
     x = convert_frame(frame)
     prediction = model.predict(x)
     h = frame.shape[1]
@@ -43,7 +43,7 @@ for file in os.listdir(path=path):
     if cv2.waitKey(25) & 0xFF == ord('q'):
             break
     
-# cap.release()
+cap.release()
 cv2.destroyAllWindows()
 
 
