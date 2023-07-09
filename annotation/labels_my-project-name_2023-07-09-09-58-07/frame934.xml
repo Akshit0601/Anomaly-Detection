@@ -1,0 +1,25 @@
+<annotation>
+	<folder>my-project-name</folder>
+	<filename>frame934.png</filename>
+	<path>/my-project-name/frame934.png</path>
+	<source>
+		<database>Unspecified</database>
+	</source>
+	<size>
+		<width>992</width>
+		<height>1498</height>
+		<depth>3</depth>
+	</size>
+	<object>
+		<name>Gripper</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>452</xmin>
+			<ymin>681</ymin>
+			<xmax>590</xmax>
+			<ymax>842</ymax>
+		</bndbox>
+	</object>
+</annotation>
