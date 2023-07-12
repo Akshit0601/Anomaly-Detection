@@ -87,8 +87,9 @@ while(cap.isOpened()):
     idx = np.where(masks[0] == True)
     y = int(idx[0].mean())
     x = int(idx[1].mean())
+    print(x,y)
     t = time()
-    data.append({'TIME':t,'X':x,'Y':y},ignore_index = True)
+    data = data.append({'TIME':t,'X':x,'Y':y},ignore_index=True)
     y1 = np.max(idx[0])
     x1 = np.max(idx[1])
 

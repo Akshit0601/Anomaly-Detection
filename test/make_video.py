@@ -1,10 +1,13 @@
 import cv2
 import numpy as np
 import os
+import time
+import pandas 
 
 frameSize = (500, 500)
 cnt = 0
 out = cv2.VideoWriter('output_video.avi',cv2.VideoWriter_fourcc(*'DIVX'), 60, frameSize)
+data = pandas.DataFrame(columns=[time,'x','y'])
 
 while(1):
     if cnt == 324:
