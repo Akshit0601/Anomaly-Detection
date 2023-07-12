@@ -4,16 +4,23 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 from segment_anything import SamPredictor,sam_model_registry
+import pandas
+from time import time 
+
 model = tensorflow.keras.models.load_model('/Users/akshitshishodia/tracker/files/model_2.h5')
 # path = '/Users/akshitshishodia/Desktop/Screen Recording 2023-07-07 at 10.20.02 PM.mov'
 cap = cv2.VideoCapture('/Users/akshitshishodia/Desktop/Screen Recording 2023-07-07 at 10.20.02 PM.mov')
 sam = sam_model_registry["vit_b"](checkpoint="/Users/akshitshishodia/sam_vit_b_01ec64.pth")
 sam.to(device='mps')
+cnt = 0
+
+data = pandas.DataFrame(columns=['TIME','X','Y'])
+
 
 def convert_frame(frame):
     x = cv2.resize(frame,(512,512))
     x = (x-127.5)/127.5
-    x = x.astype(np.float32)
+    x = x.astype(np.float32) 
     x = np.expand_dims(x,axis=0)
     return x
 
@@ -44,9 +51,11 @@ while(cap.isOpened()):
 
    
 
-
-    ret,frame = cap.read()
-    x = convert_frame(frame)
+    try:
+        ret,frame = cap.read()
+        x = convert_frame(frame)
+    except:
+        break
     prediction = model.predict(x)
     h = frame.shape[1]
     w = frame.shape[0]
@@ -78,6 +87,8 @@ while(cap.isOpened()):
     idx = np.where(masks[0] == True)
     y = int(idx[0].mean())
     x = int(idx[1].mean())
+    t = time()
+    data.append({'TIME':t,'X':x,'Y':y},ignore_index = True)
     y1 = np.max(idx[0])
     x1 = np.max(idx[1])
 
@@ -85,13 +96,19 @@ while(cap.isOpened()):
     x2 = np.min(idx[1])
     frame = cv2.rectangle(frame,(x2,y1),(x1,y2),(0,255,0),5)
     frame = cv2.circle(frame,(x,y),5,(0,255,0),-1)
+    name = "frAme"+str(cnt)+'.jpg'
+    path = os.path.join('/Users/akshitshishodia/tracker/out',name)
+
+    data.to_csv("Coordinate_path.csv")
+
+    cv2.imwrite(path,frame)
+    cnt+=1
 
 
-    cv2.imshow('check',frame)
-    if cv2.waitKey(25) & 0xFF == ord('q'):
-            break
+    # cv2.imshow('check',frame)
+    # if cv2.waitKey(25) & 0xFF == ord('q'):
+    #         break
     
-
 cap.release()
 cv2.destroyAllWindows()
 
