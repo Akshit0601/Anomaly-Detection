@@ -4,10 +4,11 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 from segment_anything import SamPredictor,sam_model_registry
-model = tensorflow.keras.models.load_model('/Users/akshitshishodia/intern/tracker/files/model_2.h5')
+model = tensorflow.keras.models.load_model('/Users/akshitshishodia/tracker/files/model_2.h5')
 # path = '/Users/akshitshishodia/Desktop/Screen Recording 2023-07-07 at 10.20.02 PM.mov'
 cap = cv2.VideoCapture('/Users/akshitshishodia/Desktop/Screen Recording 2023-07-07 at 10.20.02 PM.mov')
-sam = sam_model_registry["vit_b"](checkpoint="/Users/akshitshishodia/intern/tracker/sam_vit_b_01ec64.pth")
+sam = sam_model_registry["vit_b"](checkpoint="/Users/akshitshishodia/sam_vit_b_01ec64.pth")
+sam.to(device='mps')
 
 def convert_frame(frame):
     x = cv2.resize(frame,(512,512))
