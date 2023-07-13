@@ -13,7 +13,7 @@ while(1):
     if cnt == 324:
         break
     name = 'frAme'+str(cnt)+'.jpg'
-    img = cv2.imread(os.path.join('/Users/akshitshishodia/tracker/out',name))
+    img = cv2.imread(os.path.join('/Users/akshitshishodia/tracker/out_b',name))
     cnt+=1
 
     cv2.imshow('check',img)
