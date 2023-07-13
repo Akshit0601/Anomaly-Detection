@@ -9,7 +9,7 @@ from time import time
 
 model = tensorflow.keras.models.load_model('/Users/akshitshishodia/tracker/files/model_2.h5')
 # path = '/Users/akshitshishodia/Desktop/Screen Recording 2023-07-07 at 10.20.02 PM.mov'
-cap = cv2.VideoCapture('/Users/akshitshishodia/Desktop/Screen Recording 2023-07-07 at 10.20.02 PM.mov')
+cap = cv2.VideoCapture('/Users/akshitshishodia/Desktop/Screen Recording 2023-07-13 at 1.30.13 PM.mov')
 sam = sam_model_registry["vit_b"](checkpoint="/Users/akshitshishodia/sam_vit_b_01ec64.pth")
 sam.to(device='mps')
 cnt = 0
@@ -98,9 +98,9 @@ while(cap.isOpened()):
     frame = cv2.rectangle(frame,(x2,y1),(x1,y2),(0,255,0),5)
     frame = cv2.circle(frame,(x,y),5,(0,255,0),-1)
     name = "frAme"+str(cnt)+'.jpg'
-    path = os.path.join('/Users/akshitshishodia/tracker/out',name)
+    path = os.path.join('/Users/akshitshishodia/tracker/out_b',name)
 
-    data.to_csv("Coordinate_path.csv")
+    data.to_csv("Coordinate_path_bad.csv")
 
     cv2.imwrite(path,frame)
     cnt+=1
