@@ -40,8 +40,16 @@ while cam_item.setParam('isOpen') == '1':
         break
     x = convert_frame(img_socket) 
 
+
     prediction = model.predict(x)
     x1,y1,x2,y2 = prediction[0]
+    h = img_socket.shape[1]
+    w = img_socket.shape[0]
+    x1 = int(x1*h)
+    y1 = int(y1*w)
+
+    x2 = int(x2*h)
+    y2 = int(y2*w)
   
     img_socket = cv.rectangle(img_socket,(x1,y1),(x2,y2),(0,255,0),thickness=3)
 
