@@ -4,6 +4,16 @@ from robodk import robomath  # Robot toolbox
 RDK = robolink.Robolink()
 import numpy as np
 import cv2 as cv
+import tensorflow
+def convert_frame(frame):
+    x = cv.resize(frame,(512,512))
+    x = (x-127.5)/127.5
+    x = x.astype(np.float32) 
+    x = np.expand_dims(x,axis=0)
+    return x
+
+model = tensorflow.keras.models.load_model('/Users/akshitshishodia/tracker/files/model_2.h5')
+
 CAM_NAME = 'Camera 1'
 CAM_PARAMS = 'SIZE=640x480' 
 WINDOW_NAME = 'My Camera Feed'
@@ -28,6 +38,13 @@ while cam_item.setParam('isOpen') == '1':
             img_png = cv.imread(tf)
     if img_png is None:
         break
+    x = convert_frame(img_socket) 
+
+    prediction = model.predict(x)
+    x1,y1,x2,y2 = prediction[0]
+  
+    img_socket = cv.rectangle(img_socket,(x1,y1),(x2,y2),(0,255,0),thickness=3)
+
     cv.imshow(WINDOW_NAME, img_socket)
     key = cv.waitKey(1)
     if key == 27:
