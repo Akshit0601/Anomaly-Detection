@@ -57,9 +57,10 @@ while cam_item.setParam('isOpen') == '1':
     # y2 = int(y2*w)
   
     # img_socket = cv.rectangle(img_socket,(x1,y1),(x2,y2),(0,255,0),thickness=3)
-    name = str(cnt) + '.png'
-    path  = os.path.join(base_path,name) 
-    cv.imwrite(path,img_socket)
+    if cnt%2 == 0 :
+        name = str(cnt) + '.png'
+        path  = os.path.join(base_path,name) 
+        cv.imwrite(path,img_socket)
     cnt+=1
 
     key = cv.waitKey(1)
