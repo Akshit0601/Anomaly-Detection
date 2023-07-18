@@ -17,6 +17,7 @@ p6 = RDK.Item('pos6')
 p7 = RDK.Item('pos7')
 p8 = RDK.Item('pos8')
 p9 = RDK.Item('pos9')
+inventory_targets = [p1,p2,p3,p4,p5,p6,p7,p8,p9]
 
 gantry = RDK.Item("Gantry")
 Target_3 = RDK.Item("zero")
@@ -37,14 +38,45 @@ def down():
     sleep(2)
 
 def pick_upper():
-    gantry
+    gantry.MoveJ(Target_3)
+    sleep(2)
+    gantry.MoveJ(Target_9)
+    sleep(2)
+    gantry.MoveJ(Target_10)
+    sleep(2)
+    gantry.MoveJ(Target_9)
+    sleep(2)
+    gantry.MoveJ(Target_3)
+    sleep(2)
+
+def pick_lower():
+    gantry.MoveJ(Target_3)
+    sleep(2)
+    gantry.MoveJ(Target_7)
+    sleep(2)
+    gantry.MoveJ(Target_8)
+    sleep(2)
+    gantry.MoveJ(Target_7)
+    sleep(2)
+    gantry.MoveJ(Target_3)
+    sleep(2)
+
+
+def shift_inventory():
+    inventory.MoveJ(p1)
+    for i in inventory_targets:
+        inventory.MoveJ(i)
+        sleep(2)
+        pick_lower()
+        sleep(2)
+        pick_upper()
+
 
 while(1):
-    inventory.MoveJ(p1)
-    inventory.MoveJ(p9)
+    gantry.setSpeedJoints(2)
+    inventory.setSpeedJoints(2)
+    shift_inventory()
 
-# conveyer.MoveJ(Target_2)
-# sleep(2)
-# conveyer.MoveJ(Target_1)
+
 
 
