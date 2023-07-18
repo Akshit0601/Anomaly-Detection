@@ -1,5 +1,9 @@
 from robodk.robolink import *
 from time import sleep
+import logging
+
+logging.basicConfig(filename='simulation.log',filemode='w',format='%(asctime)s - %(message)s', level=logging.INFO)
+
 
 RDK = Robolink()
 conveyer = RDK.Item("Conveyer")
@@ -66,6 +70,8 @@ def shift_inventory():
     inventory.MoveJ(p1)
     for i in inventory_targets:
         inventory.MoveJ(i)
+        logging.info(inventory.Joints())
+        print("Current Inventory Joint Pose : ",inventory.Joints())
         sleep(2)
         pick_lower()
         sleep(2)
