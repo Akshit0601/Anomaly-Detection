@@ -64,8 +64,6 @@ def pick_lower():
     sleep(2)
     gantry.MoveJ(Target_3)
     sleep(2)
-
-
 def shift_inventory():
     inventory.MoveJ(p1)
     for i in inventory_targets:
