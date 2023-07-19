@@ -17,9 +17,9 @@ def convert_frame(frame):
     x = np.expand_dims(x,axis=0)
     return x
 
-model = tensorflow.keras.models.load_model('/Users/akshitshishodia/tracker/files/model.h5')
+model = tensorflow.keras.models.load_model('/Users/akshitshishodia/tracker/files/model_3.h5')
 
-CAM_NAME = 'Camera 1'
+CAM_NAME = 'My Camera'
 CAM_PARAMS = 'SIZE=640x480' 
 WINDOW_NAME = 'My Camera Feed'
 cam_item = RDK.Item(CAM_NAME, robolink.ITEM_TYPE_CAMERA)
@@ -66,7 +66,7 @@ while cam_item.setParam('isOpen') == '1':
     key = cv.waitKey(1)
     if key == 27:
         break 
-    if cv.getWindowProperty(WINDOW_NAME, cv.WND_PROP_VISIBLE) < 1:
-        break 
+    # if cv.getWindowProperty(WINDOW_NAME, cv.WND_PROP_VISIBLE) < 1:
+    #     break 
 cv.destroyAllWindows()
 RDK.Cam2D_Close(cam_item)
