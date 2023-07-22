@@ -21,7 +21,7 @@ p6 = RDK.Item('pos6')
 p7 = RDK.Item('pos7')
 p8 = RDK.Item('pos8')
 p9 = RDK.Item('pos9')
-inventory_targets = [p5,p6]
+inventory_targets = [p2,p3,p4,p5,p6]
 
 gantry = RDK.Item("Gantry")
 Target_3 = RDK.Item("zero")
