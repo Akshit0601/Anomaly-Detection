@@ -14,7 +14,7 @@ cnt = 0
 sam = sam_model_registry["vit_b"](checkpoint="/Users/akshitshishodia/sam_vit_b_01ec64.pth")
 sam.to(device='mps')
 data = pandas.DataFrame(columns=['time','x','y'])
-model = tensorflow.keras.models.load_model('/Users/akshitshishodia/tracker/files/model_3.h5')
+model = tensorflow.keras.models.load_model('/Users/akshitshishodia/tracker/files/model_prev.h5')
 
 def convert_frame(frame):
     x = cv.resize(frame,(512,512))
