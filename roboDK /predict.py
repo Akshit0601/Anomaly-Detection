@@ -8,7 +8,7 @@ import numpy as np
 
 logging.basicConfig(filename='sim.log',filemode='w',format='%(asctime)s - %(message)s', level=logging.INFO)
 
-MODEL = tensorflow.keras.models.load_model('/Users/akshitshishodia/tracker/files/model_prev.h5')
+model = tensorflow.keras.models.load_model('/Users/akshitshishodia/tracker/files/model_prev.h5')
 sam  = sam = sam_model_registry["vit_b"](checkpoint="/Users/akshitshishodia/sam_vit_b_01ec64.pth")
 sam.to(device='mps')
 
@@ -18,19 +18,16 @@ def convert_frame(frame):
     x = x.astype(np.float32) 
     x = np.expand_dims(x,axis=0)
     return x
-cnt = 0
-def predict():
-    global MODEL,sam,cnt
-    print(cnt+1)
-    cnt+=1
-    # data = queue.get()
+def predict(queue:Queue):
+    global model,sam
+    data = queue.get()
+    print('here')
     # if data is None:
     #     return None
     # h = data.shape[1]
     # w = data.shape[0]
-
-    # data = convert_frame(data)
-    # prediction = MODEL.predict(data)
+    # x = convert_frame(data)
+    # prediction = model.predict(x)
     # x1,y1,x2,y2 = prediction[0]
     # x1 = int(x1*h)
     # y1 = int(y1*w)
@@ -39,9 +36,7 @@ def predict():
     # input_box = np.array([x1,y1,x2,y2])
     # predictor = SamPredictor(sam)
     # clone = cv.cvtColor(data,cv.COLOR_BGR2RGB)
-
     # predictor.set_image(clone)
-    
     # masks,_,_ = predictor.predict(
     #     point_coords=None,
     #     point_labels=None,
@@ -51,7 +46,6 @@ def predict():
     # idx = np.where(masks[0] == True)
     # y = int(idx[0].mean())
     # x = int(idx[1].mean())
-
     # logging.info(x)
     # logging.info(y)
 
