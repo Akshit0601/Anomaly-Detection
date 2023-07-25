@@ -20,39 +20,39 @@ def convert_frame(frame):
     return x
 def predict(queue:Queue):
     global model,sam
-    data = queue.get()
-    print('here')
-    # if data is None:
-    #     return None
-    # h = data.shape[1]
-    # w = data.shape[0]
-    # x = convert_frame(data)
-    # prediction = model.predict(x)
-    # x1,y1,x2,y2 = prediction[0]
-    # x1 = int(x1*h)
-    # y1 = int(y1*w)
-    # x2 = int(x2*h)
-    # y2 = int(y2*w)
-    # input_box = np.array([x1,y1,x2,y2])
-    # predictor = SamPredictor(sam)
-    # clone = cv.cvtColor(data,cv.COLOR_BGR2RGB)
-    # predictor.set_image(clone)
-    # masks,_,_ = predictor.predict(
-    #     point_coords=None,
-    #     point_labels=None,
-    #     box=input_box[None,:],
-    #     multimask_output=False,
-    # )
-    # idx = np.where(masks[0] == True)
-    # y = int(idx[0].mean())
-    # x = int(idx[1].mean())
-    # logging.info(x)
-    # logging.info(y)
+    while(1):
+        data = queue.get()
+        if data is None:
+            break
+        h = data.shape[1]
+        w = data.shape[0]
+        x = convert_frame(data)
+        prediction = model.predict(x)
+        x1,y1,x2,y2 = prediction[0]
+        x1 = int(x1*h)
+        y1 = int(y1*w)
+        x2 = int(x2*h)
+        y2 = int(y2*w)
+        input_box = np.array([x1,y1,x2,y2])
+        predictor = SamPredictor(sam)
+        clone = cv.cvtColor(data,cv.COLOR_BGR2RGB)
+        predictor.set_image(clone)
+        masks,_,_ = predictor.predict(
+            point_coords=None,
+            point_labels=None,
+            box=input_box[None,:],
+            multimask_output=False,
+        )
+        idx = np.where(masks[0] == True)
+        y = int(idx[0].mean())
+        x = int(idx[1].mean())
+        logging.info(x)
+        logging.info(y)
 
-    
+        
 
-    
-    
+        
+        
 
 
 
