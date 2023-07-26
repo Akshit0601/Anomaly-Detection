@@ -1,20 +1,21 @@
-from multiprocessing import Queue
+# import queue
 
-from multiprocessing import Process
-import predict
 from robodk import robolink 
 from robodk import robomath 
 import numpy as np
 import cv2 as cv
+import os
+
+BASE_PATH = 'test_invenotry'
+cnt = 0
 
 if __name__ == '__main__':
     RDK = robolink.Robolink()
     CAM_NAME = 'My Camera'
     CAM_PARAMS = 'SIZE=640x480'
     WINDOW_NAME = 'My Camera Feed'
-    queue = Queue()
-    task = Process(target=predict.predict,args=(queue,))
-    task.start()
+    # queue = queue.Queue()
+
 
 
     cam_item = RDK.Item(CAM_NAME, robolink.ITEM_TYPE_CAMERA)
@@ -33,12 +34,17 @@ if __name__ == '__main__':
         if img_socket is None:
             break
         
-        queue.put(img_socket)
-        cv.imshow(WINDOW_NAME, img_socket)
+        # queue.put(img_socket)
+        
         key = cv.waitKey(1)
         if key == 27:
-            queue.put(None)
+            # queue.put(None)
             break  
-    queue.put(None)
+        
+        name = str(cnt)+".png"
+        path = os.path.join(BASE_PATH,name)
+        cv.imwrite(path,img_socket)
+        cnt+=1
+
     cv.destroyAllWindows()
     RDK.Cam2D_Close(cam_item)
