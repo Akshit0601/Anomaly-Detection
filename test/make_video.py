@@ -6,12 +6,14 @@ import pandas
 import logging
 
 logging.basicConfig(filename='iou.log',filemode='w',format='%(asctime)s - %(message)s', level=logging.INFO)
-
+pt = '/Users/akshitshishodia/tracker/test/out'
 frameSize = (500, 500)
 cnt = 0
-data = pandas.read_csv('/Users/akshitshishodia/tracker/roboDK /inventory_path.csv')
-
-BASE_PATH = '/Users/akshitshishodia/tracker/inventoru out'
+data = pandas.read_csv('/Users/akshitshishodia/tracker/roboDK /final_inventory_path_2.csv')
+print(data.head())
+BASE_PATH = '/Users/akshitshishodia/tracker/roboDK /pred'
+data_pose = pandas.read_csv('/Users/akshitshishodia/tracker/name_and_pose.csv')
+map_joint = {0:1,45:2,80:3,115:4,150:5,220:6}
 
 def get_iou(ground_truth, pred):
     ix1 = np.maximum(ground_truth[0], pred[0])
@@ -30,6 +32,8 @@ def get_iou(ground_truth, pred):
     return iou
 
 for _,row in data.iterrows():
+    if cnt == 294:
+        break
 
     x = int(row.x)
     y = int(row.y)
@@ -37,7 +41,6 @@ for _,row in data.iterrows():
     y1 = y
     x2 = int(x+89/2)
     y2 = int(y+271)
-
     bbx1 = (x1,y1,x2,y2)
     if cnt==14:
         print(bbx1)
@@ -46,25 +49,31 @@ for _,row in data.iterrows():
 
     iou_l = get_iou(bbxl,bbx1)
     iou_u = get_iou(bbx1,bbxu)
-    # logging.info(iou_l)
-
-    if iou_l>iou_u:
-        logging.info("picked lower")
-    if iou_u == 0 and iou_l == 0 :
-        logging.info("picked neither")
-    if iou_u>iou_l :
-        logging.info("picking up")
+    # logging.info(iou_l) 
+    name = str(cnt)+'.png'
+    joint_pose = int(float(str(data_pose[data_pose['name']==name].joint_pose).split()[2]))
+    img = cv2.imread(os.path.join(BASE_PATH,name))
+    text = str(map_joint[joint_pose])+":"
 
 
-    if cnt == 29:
-        break
-    name = 'out'+str(cnt)+'.jpg'
-    img = cv2.imread(os.path.join('/Users/akshitshishodia/tracker/inventoru out',name))
+
     img = cv2.rectangle(img,(1383,1428),(1554,1677),(255,0,0),5)
     img = cv2.rectangle(img,(1350,1736),(1569,2078),(0,0,255),5)
     img = cv2.rectangle(img,(x1,y1),(x2,y2),(255,0,230),6)
+    if iou_l>iou_u:
+        logging.info("picked lower")
+        text = text + "lower"
+        img = cv2.putText(img,text,(x,y),cv2.FONT_HERSHEY_SIMPLEX,9,(0,255,0),5)
+        path = os.path.join(pt,name)
+        cv2.imwrite(path,img=img)
+
+
+    if iou_u == 0 and iou_l == 0 :
+        logging.info("picked neither")
+      
+    if iou_u>iou_l :
+        logging.info("picking up")
     cnt+=1
-    path = os.path.join(BASE_PATH,name)
     cv2.imshow('fr',img)
     cv2.waitKey(100)
 
